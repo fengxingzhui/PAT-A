@@ -1,0 +1,43 @@
+1005 Spell It Right （20 分）
+Given a non-negative integer N, your task is to compute the sum of all the digits of N, and output every digit of the sum in English.
+
+Input Specification:
+Each input file contains one test case. Each case occupies one line which contains an N (≤10^100).
+
+Output Specification:
+For each test case, output in one line the digits of the sum in English words. There must be one space between two consecutive words, but no extra space at the end of a line.
+
+Sample Input:
+12345
+Sample Output:
+one five
+
+#include<cstdio>
+#include<cstring>
+using namespace std;
+int main()
+{
+	char N[100]={};
+	scanf("%s",&N);
+	int sum=0;
+	for(int i=0;i<strlen(N);i++) sum+=N[i]-'0';
+	char num[10]={};
+	sprintf(num,"%d",sum);
+	for(int i=0;i<strlen(num);i++)
+	{
+		if(i) printf(" ");
+		switch(num[i])
+		{
+			case '0' : printf("zero");break;
+			case '1' : printf("one");break;
+			case '2' : printf("two");break;
+			case '3' : printf("three");break;
+			case '4' : printf("four");break;
+			case '5' : printf("five");break;
+			case '6' : printf("six");break;
+			case '7' : printf("seven");break;
+			case '8' : printf("eight");break;
+			case '9' : printf("nine");break;
+		}
+	}
+}
