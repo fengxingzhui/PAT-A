@@ -1,0 +1,53 @@
+1023 Have Fun with Numbers （20 分）
+Notice that the number 123456789 is a 9-digit number consisting exactly the numbers from 1 to 9, with no duplication. Double it we will obtain 246913578, which happens to be another 9-digit number consisting exactly the numbers from 1 to 9, only in a different permutation. Check to see the result if we double it again!
+
+Now you are suppose to check if there are more numbers with this property. That is, double a given number with k digits, you are to tell if the resulting number consists of only a permutation of the digits in the original number.
+
+Input Specification:
+Each input contains one test case. Each case contains one positive integer with no more than 20 digits.
+
+Output Specification:
+For each test case, first print in a line "Yes" if doubling the input number gives a number that consists of only a permutation of the digits in the original number, or "No" if not. Then in the next line, print the doubled number.
+
+Sample Input:
+1234567899
+Sample Output:
+Yes
+2469135798
+
+注意：要小心，容易写错
+
+#include<iostream>
+using namespace std;
+int main()
+{
+	string num;
+	cin>>num;
+	int cnta[10]={},jinwei=0;
+	for(int i=num.size()-1;i>=0;i--)
+	{
+		cnta[num[i]-'0']++;
+		int tmp = (num[i]-'0')*2+jinwei;
+		num[i] = tmp%10+'0';
+		jinwei = tmp/10;
+	}
+	int flag=1;
+	if(!jinwei)
+	{
+		for(int i=0;i<num.size();i++)
+			cnta[num[i]-'0']--;
+		for(int i=0;i<10;i++)
+		{
+			if(cnta[i]!=0)
+			{
+				flag=0;
+				break;
+			}
+		}
+	}
+	else flag=0;
+	if(flag) printf("Yes\n");
+	else printf("No\n");
+	if(jinwei) printf("%d",jinwei);
+	for(int i=0;i<num.size();i++) printf("%c",num[i]);
+}
