@@ -1,0 +1,49 @@
+1040 Longest Symmetric String （25 分）
+Given a string, you are supposed to output the length of the longest symmetric sub-string. For example, given Is PAT&TAP symmetric?, the longest symmetric sub-string is s PAT&TAP s, hence you must output 11.
+
+Input Specification:
+Each input file contains one test case which gives a non-empty string of length no more than 1000.
+
+Output Specification:
+For each test case, simply print the maximum length in a line.
+
+Sample Input:
+Is PAT&TAP symmetric?
+Sample Output:
+11
+
+注意：简单又暴力，本来想省时的发现反而出错了
+
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+	string str;
+	getline(cin,str);
+	int max=1,i=0;
+	while(i<str.size())
+	{
+		
+		if(str[i]==str[i+1]&&i+1<str.size())
+		{
+			int step=1;
+			while(i+1+step<str.size()&&i-step>=0&&str[i-step]==str[i+1+step])
+				step++;
+			max = step*2>max?step*2:max;
+		//	i+=step;
+		}
+		if(str[i-1]==str[i+1]&&i-1>=0&&i+1<str.size())
+		{
+			int step=1;
+			while(i-1-step>=0&&i+1+step<str.size()&&str[i-1-step]==str[i+1+step])
+				step++;
+			max = step*2+1>max?step*2+1:max;
+		//	i+=step;
+		}
+		i++;
+	}
+	printf("%d\n",max);
+	
+
+}

@@ -1,0 +1,81 @@
+1038 Recover the Smallest Number （30 分）
+Given a collection of number segments, you are supposed to recover the smallest number from them. For example, given { 32, 321, 3214, 0229, 87 }, we can recover many numbers such like 32-321-3214-0229-87 or 0229-32-87-321-3214 with respect to different orders of combinations of these segments, and the smallest number is 0229-321-3214-32-87.
+
+Input Specification:
+Each input file contains one test case. Each case gives a positive integer N (≤10^4) followed by N number segments. Each segment contains a non-negative integer of no more than 8 digits. All the numbers in a line are separated by a space.
+
+Output Specification:
+For each test case, print the smallest number in one line. Notice that the first digit must not be zero.
+
+Sample Input:
+5 32 321 3214 0229 87
+Sample Output:
+22932132143287
+
+注意：自己做的思路有几个测试点一直没过去，是排序的问题，后来参考别人的答案，换成考虑交换相邻两个元素的位置，如果会让结果变小就执行交换，然后过了
+
+AC代码：
+#include<iostream>
+#include<algorithm>
+using namespace std;
+bool cmp(string a,string b)
+{
+	return a+b<b+a;
+}
+int main()
+{
+	int N;
+	scanf("%d",&N);
+	string list[N];
+	for(int i=0;i<N;i++) cin>>list[i];
+	sort(list,list+N,cmp);
+	int flag=0;
+	for(int i=0;i<N;i++) 
+	{
+		if(flag) printf("%s",list[i].c_str());
+		else
+		{
+			for(int j=0;j<list[i].size();j++)
+			{
+				if(list[i][j]!='0') flag=1;
+				if(flag) printf("%c",list[i][j]);        //输出这里还能优化，把排序后的数组按顺序放到一个字符串out里，从out的第0位开始，找到第一个不为0的位置i，然后printf（“%s”,out.c_str()+i ）即可；
+			}
+		}
+	}
+	if(!flag) printf("0");
+}
+
+错误代码：
+#include<iostream>
+#include<algorithm>
+using namespace std;
+bool cmp(string a,string b)
+{
+	int i,j;
+	for(i=0,j=0;i<a.size()&&j<b.size();i++,j++)
+		if(a[i]!=b[i]) return a[i]<b[i];
+	if(i<a.size()) return a[i]<b[0];
+	if(i<b.size()) return b[i]<a[0];
+}
+int main()
+{
+	int N;
+	scanf("%d",&N);
+	string list[N];
+	for(int i=0;i<N;i++) cin>>list[i];
+	sort(list,list+N,cmp);
+	int flag=0;
+	for(int i=0;i<N;i++) 
+	{
+		if(flag) printf("%s",list[i].c_str());
+		else
+		{
+			for(int j=0;j<list[i].size();j++)
+			{
+				if(list[i][j]!='0') flag=1;
+				if(flag) printf("%c",list[i][j]);
+			}
+		}
+	}
+	if(!flag) printf("0");
+}
