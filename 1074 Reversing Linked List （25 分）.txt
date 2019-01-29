@@ -1,0 +1,75 @@
+1074 Reversing Linked List （25 分）
+Given a constant K and a singly linked list L, you are supposed to reverse the links of every K elements on L. For example, given L being 1→2→3→4→5→6, if K=3, then you must output 3→2→1→6→5→4; if K=4, you must output 4→3→2→1→5→6.
+
+Input Specification:
+Each input file contains one test case. For each case, the first line contains the address of the first node, a positive N (≤10
+​5
+​​ ) which is the total number of nodes, and a positive K (≤N) which is the length of the sublist to be reversed. The address of a node is a 5-digit nonnegative integer, and NULL is represented by -1.
+
+Then N lines follow, each describes a node in the format:
+
+Address Data Next
+where Address is the position of the node, Data is an integer, and Next is the position of the next node.
+
+Output Specification:
+For each case, output the resulting ordered linked list. Each node occupies a line, and is printed in the same format as in the input.
+
+Sample Input:
+00100 6 4
+00000 4 99999
+00100 1 12309
+68237 6 -1
+33218 3 00000
+99999 5 68237
+12309 2 33218
+Sample Output:
+00000 4 33218
+33218 3 12309
+12309 2 00100
+00100 1 99999
+99999 5 68237
+68237 6 -1
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+struct node
+{
+	int data,next;
+};
+node L[1000000];
+int main()
+{
+	int first,N,K;
+	scanf("%d %d %d",&first,&N,&K);
+	for(int i=0;i<N;i++)
+	{
+		int address,data,next;
+		scanf("%d %d %d",&address,&data,&next);
+		L[address].data =data;
+		L[address].next =next;
+	}
+	vector<int> v;
+	for(int i = first;i!=-1;i=L[i].next )
+	{
+		v.push_back(i); 
+	}
+
+	int left=0,right=left+K;
+	while(right<=v.size())          //注意，这里的right是可以等于size（）的！！！
+	{
+		reverse(v.begin()+left,v.begin()+right);
+		left=right;
+		right+=K;
+	}
+	for(int i=0;i<v.size();i++)
+	{
+		if(i+1<v.size())
+			printf("%05d %d %05d\n",v[i],L[v[i]].data,v[i+1]);
+		else
+		printf("%05d %d %d",v[i],L[v[i]].data,-1);
+	}
+
+	
+}

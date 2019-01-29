@@ -1,0 +1,75 @@
+1052 Linked List Sorting （25 分）
+A linked list consists of a series of structures, which are not necessarily adjacent in memory. We assume that each structure contains an integer key and a Next pointer to the next structure. Now given a linked list, you are supposed to sort the structures according to their key values in increasing order.
+
+Input Specification:
+Each input file contains one test case. For each case, the first line contains a positive N (<10^5 ) and an address of the head node, 
+where N is the total number of nodes in memory and the address of a node is a 5-digit positive integer. NULL is represented by −1.
+
+Then N lines follow, each describes a node in the format:
+
+Address Key Next
+where Address is the address of the node in memory, Key is an integer in [−10^5 ,10^5 ], and Next is the address of the next node. 
+It is guaranteed that all the keys are distinct and there is no cycle in the linked list starting from the head node.
+
+Output Specification:
+For each test case, the output format is the same as that of the input, where N is the total number of nodes in the list and all the nodes must be sorted order.
+
+Sample Input:
+5 00001
+11111 100 -1
+00001 0 22222
+33333 100000 11111
+12345 -1 33333
+22222 1000 12345
+Sample Output:
+5 12345
+12345 -1 00001
+00001 0 11111
+11111 100 22222
+22222 1000 33333
+33333 100000 -1
+
+
+注意点： 嗯，注意链表为空的情况
+
+
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+struct node
+{
+	int data;
+	int next;
+};
+node l[1000000];
+bool cmp(int a,int b)
+{
+	return l[a].data <l[b].data;
+}
+int main()
+{
+	int N,head;
+	scanf("%d %d",&N,&head);
+	for(int i=0;i<N;i++)
+	{
+		int address ,data, next;
+		scanf("%d %d %d",&address,&data,&next);
+		l[address].data =data;
+		l[address].next =next;
+	}
+	vector<int>v;
+	for(int p =head;p!=-1;p=l[p].next )
+		v.push_back(p);
+	sort(v.begin(),v.end(),cmp);
+	if(v.size())
+		printf("%d %05d\n",v.size(),v[0]);
+	else printf("0 -1");
+	for(int i=0;i<v.size();i++)
+	{
+		if(i!=v.size()-1)
+			printf("%05d %d %05d\n",v[i],l[v[i]].data,v[i+1]);
+		else 
+			printf("%05d %d %d\n",v[i],l[v[i]].data,-1);
+	}
+}

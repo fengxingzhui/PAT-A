@@ -1,0 +1,43 @@
+1049 Counting Ones （30 分）
+The task is simple: given any positive integer N, you are supposed to count the total number of 1's in the decimal form of the integers from 1 to N. For example, given N being 12, there are five 1's in 1, 10, 11, and 12.
+
+Input Specification:
+Each input file contains one test case which gives the positive N (≤2^30 ).
+
+Output Specification:
+For each test case, print the number of 1's in one line.
+
+Sample Input:
+12
+Sample Output:
+5
+
+注意：一道数学题
+	  把原数字看成axb的形式，分析x所在位置1出现的次数；
+	  如果x==1，  a==0时，x出现b+1次，a不等于0时x出现ab+1次;
+	  如果x==2~9，  a==0时，x出现x所在位数次，a不等于0时x出现（a+1）*x所在位数次；
+	  如果x==0， a==0时，x出现0次，a不等于0时x出现a*x所在位数次。
+
+#include<iostream>
+using namespace std;
+int main()
+{
+	string str;
+	cin>>str;
+	int sum=0;
+	for(int i=0;i<str.size();i++)
+	{
+		int left=0,right=0,weishu=1;
+		for(int j=0;j<i;j++) left=left*10+str[j]-'0';
+		for(int j=i+1;j<str.size();j++) 
+		{
+			right=right*10+str[j]-'0';
+			weishu*=10;
+		}
+		if(str[i]=='0') sum+=left*weishu;
+		else if(str[i]=='1') sum+=left*weishu+right+1;
+		else sum+=(left+1)*weishu;
+	}
+	printf("%d",sum);
+	
+}

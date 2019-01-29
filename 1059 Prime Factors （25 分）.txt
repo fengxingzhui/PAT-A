@@ -1,0 +1,71 @@
+1059 Prime Factors （25 分）
+Given any positive integer N, you are supposed to find all of its prime factors, and write them in the format N = p1^k1​​ ×p2^​k2 ×⋯×pm^k​m
+​​ 
+Input Specification:
+Each input file contains one test case which gives a positive integer N in the range of long int.
+
+Output Specification:
+Factor N in the format N = p1​​^k1*p2^k2*…*pm^k​m , where pi 's are prime factors of N in increasing order, and the exponent ki  is the number of pi-- hence when there is only one pi , ki is 1 and must NOT be printed out.
+
+Sample Input:
+97532468
+Sample Output:
+97532468=2^2*11*17*101*1291
+
+
+注意：特别注意N为0或者1的时候
+#include<iostream>
+using namespace std;
+int p[1000000]={};
+
+void prime()
+{
+	p[0]=p[1]=1;
+	for(int i=2;i<1000000;i++)
+	{
+		if(!p[i])
+		{
+			int n=2;
+			while(n*i<1000000)
+			{
+				p[n*i]=1;
+				n++;
+			}
+		}
+	}
+}
+
+int main()
+{
+	long long int N;
+	scanf("%lld",&N);
+	int i=2,cnt=0;
+	printf("%lld=",N);
+	if(N==0||N==1) printf("%lld",N);
+	else
+	{
+		prime();
+		while(N!=1)
+		{
+			while(p[i])
+			{
+				i++;	
+			}
+			if(N%i==0)
+			{
+				int K=0;
+				while(N%i==0)
+				{
+					N/=i;
+					K++;
+				}
+				if(cnt) printf("*");
+				printf("%d",i);
+				cnt++;
+				if(K>1) printf("^%d",K);
+			}
+			i++;
+		}
+	}
+	
+}
